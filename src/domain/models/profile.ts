@@ -1,5 +1,5 @@
 export class Profile {
-  constructor(args: { id: string; name: string; about: string }) {
+  constructor(args: Pick<Profile, "id" | "name" | "about">) {
     this.id = args.id;
     this.name = args.name;
     this.about = args.about;

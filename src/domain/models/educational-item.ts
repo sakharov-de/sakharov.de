@@ -1,14 +1,17 @@
 export class EducationalItem {
-  constructor(args: {
-    id: string;
-    name: string;
-    description: string;
-    start: string;
-    end: string;
-    grade: string;
-    specialization: string;
-    profileId: string;
-  }) {
+  constructor(
+    args: Pick<
+      EducationalItem,
+      | "id"
+      | "name"
+      | "description"
+      | "start"
+      | "end"
+      | "grade"
+      | "specialization"
+      | "profileId"
+    >
+  ) {
     this.id = args.id;
     this.name = args.name;
     this.description = args.description;

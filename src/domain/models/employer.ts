@@ -1,5 +1,5 @@
 export class Employer {
-  constructor(args: { id: string; name: string; about: string }) {
+  constructor(args: Pick<Employer, "id" | "name">) {
     this.id = args.id;
     this.name = args.name;
   }

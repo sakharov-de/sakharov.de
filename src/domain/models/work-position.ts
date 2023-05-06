@@ -1,13 +1,16 @@
 export class WorkPosition {
-  constructor(args: {
-    id: string;
-    name: string;
-    description: string;
-    start: string;
-    end: string;
-    profileId: string;
-    employerId: string;
-  }) {
+  constructor(
+    args: Pick<
+      WorkPosition,
+      | "id"
+      | "name"
+      | "description"
+      | "start"
+      | "end"
+      | "profileId"
+      | "employerId"
+    >
+  ) {
     this.id = args.id;
     this.name = args.name;
     this.description = args.description;
