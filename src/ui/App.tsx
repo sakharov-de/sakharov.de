@@ -1,8 +1,23 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { useDomain } from "./hooks/useDomain";
 
 function App() {
+  const domain = useDomain();
+  const profile = domain.profileRepository.findOne();
+
+  if (!profile) return null;
+
+  const workPositions = domain.workPositionRepository.findAllByProfileId(
+    profile.id
+  );
+  console.log(workPositions);
+  const educationalItems = domain.educationalItemRepository.findAllByProfileId(
+    profile.id
+  );
+  console.log(educationalItems);
+
   return (
     <div className="App">
       <header className="App-header">

@@ -2,8 +2,12 @@ import { Profile } from "../models/profile.model";
 
 export class ProfileRepository {
   storage = new Map<Profile["id"], Profile>();
-  getById(id: Profile["id"]) {
-    return this.storage.get(id) || null;
+  findOne(): Profile | null {
+    return (
+      (this.storage.entries().next().value &&
+        this.storage.entries().next().value[1]) ||
+      null
+    );
   }
   save(profile: Profile): Profile {
     if (this.storage.has(profile.id)) {
