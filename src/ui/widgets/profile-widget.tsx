@@ -1,10 +1,6 @@
 import React from "react";
-import { Profile } from "../../domain/models/profile.model";
 import { useDomain } from "../hooks/useDomain";
-type Props = {
-  profileId: Profile["id"];
-};
-export const ProfileWidget: React.FC<Props> = (props) => {
+export const ProfileWidget: React.FC = () => {
   const domain = useDomain();
   const profile = domain.profileRepository.findOne();
 
