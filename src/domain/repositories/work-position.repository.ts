@@ -1,6 +1,5 @@
 import { WorkPosition } from "../models/work-position.model";
 import { Profile } from "../models/profile.model";
-import { EducationalItem } from "../models/educational-item.model";
 
 export class WorkPositionRepository {
   storage = new Map<WorkPosition["id"], WorkPosition>();

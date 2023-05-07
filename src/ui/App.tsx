@@ -1,7 +1,9 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { useDomain } from "./hooks/useDomain";
+import { ProfileWidget } from "./widgets/profile-widget";
+import { ExperienceWidget } from "./widgets/experience-widget";
+import { EducationWidget } from "./widgets/education-widget";
 
 function App() {
   const domain = useDomain();
@@ -9,10 +11,6 @@ function App() {
 
   if (!profile) return null;
 
-  const workPositions = domain.workPositionRepository.findAllByProfileId(
-    profile.id
-  );
-  console.log(workPositions);
   const educationalItems = domain.educationalItemRepository.findAllByProfileId(
     profile.id
   );
@@ -20,21 +18,13 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <ProfileWidget profileId={profile.id} />
       </header>
+      <h2>Experience</h2>
+      <ExperienceWidget profileId={profile.id} />
+      <h2>Education</h2>
+      <EducationWidget profileId={profile.id} />
     </div>
   );
 }
