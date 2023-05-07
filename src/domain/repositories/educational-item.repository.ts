@@ -1,6 +1,6 @@
 import { EducationalItem } from "../models/educational-item.model";
 
-export class EmployerRepository {
+export class EducationalItemRepository {
   storage = new Map<EducationalItem["id"], EducationalItem>();
   getById(id: EducationalItem["id"]) {
     return this.storage.get(id) || null;
