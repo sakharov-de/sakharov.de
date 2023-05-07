@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <ProfileWidget profileId={profile.id} />
+        <ProfileWidget />
       </header>
       <h2>Experience</h2>
       <ExperienceWidget profileId={profile.id} />
