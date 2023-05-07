@@ -11,6 +11,6 @@ export class EmployerRepository {
     }
     this.storage.set(employer.id, employer);
 
-    return this.getById(employer.id);
+    return employer;
   }
 }

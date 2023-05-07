@@ -11,6 +11,6 @@ export class EducationalItemRepository {
     }
     this.storage.set(educationalItem.id, educationalItem);
 
-    return this.getById(educationalItem.id);
+    return educationalItem;
   }
 }

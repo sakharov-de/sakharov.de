@@ -7,19 +7,47 @@ import { EducationalItemRepository } from "./domain/repositories/educational-ite
 import { EmployerRepository } from "./domain/repositories/employer.repository";
 import { ProfileRepository } from "./domain/repositories/profile.repository";
 import { WorkPositionRepository } from "./domain/repositories/work-position.repository";
+import profileData from "./data/profile.json";
+import { Profile } from "./domain/models/profile.model";
+import { EducationalItem } from "./domain/models/educational-item.model";
+import { Employer } from "./domain/models/employer.model";
+import { WorkPosition } from "./domain/models/work-position.model";
 
-const educationalItemRepository = new EducationalItemRepository();
-const employerRepository = new EmployerRepository();
-const profileRepository = new ProfileRepository();
-const workPositionRepository = new WorkPositionRepository();
+// Init domain
 const domain = {
-  educationalItemRepository,
-  employerRepository,
-  profileRepository,
-  workPositionRepository,
+  educationalItemRepository: new EducationalItemRepository(),
+  employerRepository: new EmployerRepository(),
+  profileRepository: new ProfileRepository(),
+  workPositionRepository: new WorkPositionRepository(),
 };
 export const DomainContext = React.createContext(domain);
 
+// Fill data storage
+const profile = domain.profileRepository.save(
+  new Profile({
+    name: profileData.name,
+    about: profileData.about,
+  })
+);
+profileData.education.forEach((educationalData) =>
+  domain.educationalItemRepository.save(
+    new EducationalItem({ ...educationalData, profileId: profile.id })
+  )
+);
+profileData.experience.forEach((experienceData) => {
+  const employer = domain.employerRepository.save(new Employer(experienceData));
+  experienceData.positions.forEach((positionData) =>
+    domain.workPositionRepository.save(
+      new WorkPosition({
+        ...positionData,
+        employerId: employer.id,
+        profileId: profile.id,
+      })
+    )
+  );
+});
+
+// Init UI
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

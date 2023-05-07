@@ -11,6 +11,6 @@ export class WorkPositionRepository {
     }
     this.storage.set(workPosition.id, workPosition);
 
-    return this.getById(workPosition.id);
+    return workPosition;
   }
 }

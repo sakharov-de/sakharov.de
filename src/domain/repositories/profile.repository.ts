@@ -5,12 +5,12 @@ export class ProfileRepository {
   getById(id: Profile["id"]) {
     return this.storage.get(id) || null;
   }
-  save(profile: Profile) {
+  save(profile: Profile): Profile {
     if (this.storage.has(profile.id)) {
       this.storage.delete(profile.id);
     }
     this.storage.set(profile.id, profile);
 
-    return this.getById(profile.id);
+    return profile;
   }
 }
