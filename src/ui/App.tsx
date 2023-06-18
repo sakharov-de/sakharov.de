@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { useDomain } from "./hooks/useDomain";
 import { ProfileWidget } from "./widgets/profile-widget";
 import { ExperienceWidget } from "./widgets/experience-widget";
 import { EducationWidget } from "./widgets/education-widget";
+import { useUseCases } from "./hooks/useUseCases";
 
 function App() {
   const domain = useDomain();
+  const useCases = useUseCases();
   const profile = domain.profileRepository.findOne();
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (!profile) return null;
+  useEffect(() => {
+    useCases.cvUseCases.initCvPage();
+    setIsLoading(false);
+  }, [useCases.cvUseCases]);
 
-  const educationalItems = domain.educationalItemRepository.findAllByProfileId(
-    profile.id
-  );
-  console.log(educationalItems);
+  if (isLoading || !profile) return null;
 
   return (
     <div className="App">

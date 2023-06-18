@@ -3,49 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./ui/index.css";
 import App from "./ui/App";
 import reportWebVitals from "./reportWebVitals";
-import { EducationalItemRepository } from "./domain/repositories/educational-item.repository";
-import { EmployerRepository } from "./domain/repositories/employer.repository";
-import { ProfileRepository } from "./domain/repositories/profile.repository";
-import { WorkPositionRepository } from "./domain/repositories/work-position.repository";
-import profileData from "./data/profile.json";
-import { Profile } from "./domain/models/profile.model";
-import { EducationalItem } from "./domain/models/educational-item.model";
-import { Employer } from "./domain/models/employer.model";
-import { WorkPosition } from "./domain/models/work-position.model";
+import { config } from "./config";
+import { HttpClients } from "./api/http-clients";
+import { Domain } from "./domain";
+import { UseCases } from "./use-cases";
 
-// Init domain
-const domain = {
-  educationalItemRepository: new EducationalItemRepository(),
-  employerRepository: new EmployerRepository(),
-  profileRepository: new ProfileRepository(),
-  workPositionRepository: new WorkPositionRepository(),
-};
+// Init domain and use-cases
+const httpClients = new HttpClients(config);
+const domain = new Domain(httpClients);
+const useCases = new UseCases(domain);
+
+// Init context
 export const DomainContext = React.createContext(domain);
-
-// Fill data storage
-const profile = domain.profileRepository.save(
-  new Profile({
-    name: profileData.name,
-    about: profileData.about,
-  })
-);
-profileData.education.forEach((educationalData) =>
-  domain.educationalItemRepository.save(
-    new EducationalItem({ ...educationalData, profileId: profile.id })
-  )
-);
-profileData.experience.forEach((experienceData) => {
-  const employer = domain.employerRepository.save(new Employer(experienceData));
-  experienceData.positions.forEach((positionData) =>
-    domain.workPositionRepository.save(
-      new WorkPosition({
-        ...positionData,
-        employerId: employer.id,
-        profileId: profile.id,
-      })
-    )
-  );
-});
+export const UseCasesContext = React.createContext(useCases);
 
 // Init UI
 const root = ReactDOM.createRoot(
@@ -54,7 +24,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <DomainContext.Provider value={domain}>
-      <App />
+      <UseCasesContext.Provider value={useCases}>
+        <App />
+      </UseCasesContext.Provider>
     </DomainContext.Provider>
   </React.StrictMode>
 );
