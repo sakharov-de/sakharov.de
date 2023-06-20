@@ -1,20 +1,22 @@
 import React from "react";
 import { Profile } from "../../domain/models/profile.model";
 import { useDomain } from "../hooks/useDomain";
+import { WorkPositionRepository } from "../../domain/repositories/work-position.repository";
+import { EmployerRepository } from "../../domain/repositories/employer.repository";
 type Props = {
   profileId: Profile["id"];
 };
 export const ExperienceWidget: React.FC<Props> = (props) => {
   const domain = useDomain();
-  const workPositions = domain.workPositionRepository.findAllByProfileId(
+  const workPositionRepository = domain.getRepository(WorkPositionRepository);
+  const employerRepository = domain.getRepository(EmployerRepository);
+  const workPositions = workPositionRepository.findAllByProfileId(
     props.profileId
   );
 
   function renderWorkPositions() {
     return workPositions.map((workPosition) => {
-      const employer = domain.employerRepository.findOneById(
-        workPosition.employerId
-      );
+      const employer = employerRepository.findOneById(workPosition.employerId);
 
       return (
         <section key={workPosition.id}>

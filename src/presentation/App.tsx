@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { useDomain } from "./hooks/useDomain";
 import { ProfileWidget } from "./widgets/profile-widget";
 import { ExperienceWidget } from "./widgets/experience-widget";
 import { EducationWidget } from "./widgets/education-widget";
-import { useUseCases } from "./hooks/useUseCases";
+import { useDomain } from "./hooks/useDomain";
+import { ProfileRepository } from "../domain/repositories/profile.repository";
+import { useApplication } from "./hooks/useApplication";
+import { InitCvPageUseCase } from "../application/use-cases/init-cv-page.use-case";
 
 function App() {
   const domain = useDomain();
-  const useCases = useUseCases();
-  const profile = domain.profileRepository.findOne();
+  const profileRepository = domain.getRepository(ProfileRepository);
+  const application = useApplication();
+  const initCvPageUseCase = application.getUseCase(InitCvPageUseCase);
+  const profile = profileRepository.findOne();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    useCases.cvUseCases.initCvPage();
+    initCvPageUseCase.execute();
     setIsLoading(false);
-  }, [useCases.cvUseCases]);
+  }, [initCvPageUseCase]);
 
   if (isLoading || !profile) return null;
 

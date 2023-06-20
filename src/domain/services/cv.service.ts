@@ -1,4 +1,4 @@
-import { CvHttpClient } from "../../api/http-clients/cv.http-client";
+import { CvHttpClient } from "../../infrastructure/http-clients/cv.http-client";
 
 export class CvService {
   constructor(private readonly cvHttpClient: CvHttpClient) {}

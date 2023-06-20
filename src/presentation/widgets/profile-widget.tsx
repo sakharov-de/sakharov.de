@@ -1,8 +1,10 @@
 import React from "react";
 import { useDomain } from "../hooks/useDomain";
+import { ProfileRepository } from "../../domain/repositories/profile.repository";
 export const ProfileWidget: React.FC = () => {
   const domain = useDomain();
-  const profile = domain.profileRepository.findOne();
+  const profileRepository = domain.getRepository(ProfileRepository);
+  const profile = profileRepository.findOne();
 
   if (!profile) return null;
 

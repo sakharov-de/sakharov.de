@@ -1,4 +1,4 @@
 import { useContext } from "react";
-import { DomainContext } from "../../index";
+import { DomainContext } from "../..";
 
 export const useDomain = () => useContext(DomainContext);

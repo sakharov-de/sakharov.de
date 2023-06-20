@@ -1,21 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./ui/index.css";
-import App from "./ui/App";
+import "./presentation/index.css";
+import App from "./presentation/App";
 import reportWebVitals from "./reportWebVitals";
 import { config } from "./config";
-import { HttpClients } from "./api/http-clients";
+import { HttpClients } from "./infrastructure/http-clients";
 import { Domain } from "./domain";
-import { UseCases } from "./use-cases";
+import { Application } from "./application";
 
-// Init domain and use-cases
+// Init domain, application and context
 const httpClients = new HttpClients(config);
 const domain = new Domain(httpClients);
-const useCases = new UseCases(domain);
-
-// Init context
+const application = new Application(domain);
 export const DomainContext = React.createContext(domain);
-export const UseCasesContext = React.createContext(useCases);
+export const ApplicationContext = React.createContext(application);
 
 // Init UI
 const root = ReactDOM.createRoot(
@@ -23,11 +21,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <DomainContext.Provider value={domain}>
-      <UseCasesContext.Provider value={useCases}>
-        <App />
-      </UseCasesContext.Provider>
-    </DomainContext.Provider>
+    <App />
   </React.StrictMode>
 );
 

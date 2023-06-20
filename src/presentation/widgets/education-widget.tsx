@@ -1,12 +1,16 @@
 import React from "react";
 import { Profile } from "../../domain/models/profile.model";
 import { useDomain } from "../hooks/useDomain";
+import { EducationalItemRepository } from "../../domain/repositories/educational-item.repository";
 type Props = {
   profileId: Profile["id"];
 };
 export const EducationWidget: React.FC<Props> = (props) => {
   const domain = useDomain();
-  const educationalItems = domain.educationalItemRepository.findAllByProfileId(
+  const educationalItemRepository = domain.getRepository(
+    EducationalItemRepository
+  );
+  const educationalItems = educationalItemRepository.findAllByProfileId(
     props.profileId
   );
   function renderEducationalItems() {
