@@ -1,3 +1,4 @@
+import "./index.css";
 import React from "react";
 import { routes } from "./presentation/pages";
 import { HttpClients } from "./infrastructure/http-clients";
