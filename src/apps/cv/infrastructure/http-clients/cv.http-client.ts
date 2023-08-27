@@ -1,4 +1,4 @@
-import { Config } from "../../config";
+import { Config } from "../../../../core/config";
 
 export class CvHttpClient {
   private readonly baseUrl: string;

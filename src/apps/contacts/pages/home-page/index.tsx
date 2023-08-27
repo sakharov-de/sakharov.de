@@ -18,6 +18,7 @@ export const HomePage = () => {
       <div className="flex flex-col text-center">
         {externalLinks.map((link) => (
           <a
+            key={[link.name, link.url].join()}
             className="text-white"
             href={link.url}
             target="_blank"

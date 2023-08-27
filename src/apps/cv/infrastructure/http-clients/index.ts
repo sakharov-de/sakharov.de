@@ -1,5 +1,5 @@
 import { CvHttpClient } from "./cv.http-client";
-import { Config } from "../../config";
+import { Config } from "../../../../core/config";
 
 export class HttpClients {
   readonly cvHttpClient: CvHttpClient;

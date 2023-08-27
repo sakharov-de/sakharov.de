@@ -1,19 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./presentation/index.css";
-import App from "./presentation/App";
+import App from "./core/App";
 import reportWebVitals from "./reportWebVitals";
-import { config } from "./config";
-import { HttpClients } from "./infrastructure/http-clients";
-import { Domain } from "./domain";
-import { Application } from "./application";
-
-// Init domain, application and context
-const httpClients = new HttpClients(config);
-const domain = new Domain(httpClients);
-const application = new Application(domain);
-export const DomainContext = React.createContext(domain);
-export const ApplicationContext = React.createContext(application);
 
 // Init UI
 const root = ReactDOM.createRoot(

@@ -1,16 +1,16 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { CvPage } from "./cv-page";
-import { HomePage } from "./home-page";
+import { cvApp } from "../apps/cv";
+import { contactsApp } from "../apps/contacts";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    children: contactsApp.routes,
   },
   {
     path: "cv",
-    element: <CvPage />,
+    children: cvApp.routes,
   },
 ]);
 
