@@ -1,23 +1,34 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { cvApp } from "../apps/cv";
-import { contactsApp } from "../apps/contacts";
-import { spCalculatorApp } from "../apps/sp-calculator";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    children: contactsApp.routes,
-  },
-  {
-    path: "/cv",
-    children: cvApp.routes,
-  },
-  {
-    path: "/sp-calculator",
-    children: spCalculatorApp.routes,
-  },
-]);
+const ContactsAppRouting = React.lazy(() =>
+  import("../apps/contacts").then((module) => ({
+    default: module.contactsApp.Routing,
+  }))
+);
+const CvAppRouting = React.lazy(() =>
+  import("../apps/cv").then((module) => ({ default: module.cvApp.Routing }))
+);
+const SpCalculatorAppRouting = React.lazy(() =>
+  import("../apps/sp-calculator").then((module) => ({
+    default: module.spCalculatorApp.Routing,
+  }))
+);
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<ContactsAppRouting />} index={true} />
+      <Route path="cv" element={<CvAppRouting />} />
+      <Route path="sp-calculator" element={<SpCalculatorAppRouting />} />
+    </>
+  )
+);
 
 export const Routing = () => {
   return <RouterProvider router={router} />;

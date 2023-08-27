@@ -1,6 +1,6 @@
-import { RouteObject } from "react-router-dom";
-import { HomePage } from "../../../contacts/pages/home-page";
+import { Route, RouteObject, Routes } from "react-router-dom";
 import React from "react";
+import { HomePage } from "./home-page";
 
 export const routes: RouteObject[] = [
   {
@@ -8,3 +8,9 @@ export const routes: RouteObject[] = [
     element: <HomePage />,
   },
 ];
+
+export const Routing = () => (
+  <Routes>
+    <Route path="" element={<HomePage />}></Route>
+  </Routes>
+);

@@ -1,4 +1,4 @@
 import "./index.css";
-import { routes } from "./pages";
+import { routes, Routing } from "./pages";
 
-export const contactsApp = { routes };
+export const contactsApp = { routes, Routing };

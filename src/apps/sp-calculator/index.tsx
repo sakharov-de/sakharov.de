@@ -1,3 +1,3 @@
-import { routes } from "./presentation/pages";
+import { routes, Routing } from "./presentation/pages";
 
-export const spCalculatorApp = { routes };
+export const spCalculatorApp = { routes, Routing };

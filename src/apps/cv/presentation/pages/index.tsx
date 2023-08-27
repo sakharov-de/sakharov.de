@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteObject } from "react-router-dom";
+import { Route, RouteObject, Routes } from "react-router-dom";
 import { CvPage } from "./cv-page";
 
 export const routes: RouteObject[] = [
@@ -8,3 +8,9 @@ export const routes: RouteObject[] = [
     element: <CvPage />,
   },
 ];
+
+export const Routing = () => (
+  <Routes>
+    <Route path="" element={<CvPage />} />
+  </Routes>
+);
