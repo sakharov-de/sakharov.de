@@ -23,9 +23,9 @@ const SpCalculatorAppRouting = React.lazy(() =>
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<ContactsAppRouting />} index={true} />
-      <Route path="cv" element={<CvAppRouting />} />
-      <Route path="sp-calculator" element={<SpCalculatorAppRouting />} />
+      <Route path="cv/*" element={<CvAppRouting />} />
+      <Route path="sp-calculator/*" element={<SpCalculatorAppRouting />} />
+      <Route path="/*" element={<ContactsAppRouting />} index={true} />
     </>
   )
 );
