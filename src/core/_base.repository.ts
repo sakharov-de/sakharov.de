@@ -1,16 +1,18 @@
-import { DeveloperReport } from "../apps/sp-calculator/domain/models/developer-report";
-
 interface Base {
   id: string;
 }
 
 export class BaseRepository<T extends Base> {
-  private readonly storage = new Map<T["id"], DeveloperReport>();
+  private readonly storage = new Map<T["id"], T>();
 
-  findById(id: DeveloperReport["id"]) {
+  findAll() {
+    return Array.from(this.storage.values());
+  }
+
+  findById(id: T["id"]) {
     return this.storage.get(id);
   }
-  save(model: DeveloperReport) {
+  save(model: T) {
     if (this.storage.has(model.id)) {
       this.storage.delete(model.id);
     }

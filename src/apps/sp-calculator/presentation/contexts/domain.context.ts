@@ -1,4 +1,7 @@
 import React from "react";
-import { spCalculatorApp } from "../../index";
+import { Domain } from "../../domain";
+import { fillFakeData } from "../../data";
 
-export const DomainContext = React.createContext(spCalculatorApp.domain);
+fillFakeData(Domain.getInstance());
+
+export const DomainContext = React.createContext(Domain.getInstance());
