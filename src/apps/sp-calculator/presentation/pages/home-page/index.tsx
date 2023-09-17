@@ -14,7 +14,7 @@ interface SprintDataType {
   name: string;
   hoursSum: number;
   storyPointsSum: number;
-  averageStoryPointCost: number | null;
+  averageStoryPointCostByTeam: number | null;
   averageStoryPointCostByDeveloper: number | null;
 }
 interface SprintDeveloperDataType {
@@ -30,7 +30,7 @@ interface DeveloperDataType {
   name: string;
   hoursSum: number;
   storyPointsSum: number;
-  averageStoryPointCost: number | null;
+  averageStoryPointCostByTeam: number | null;
 }
 interface DeveloperSprintDataType {
   key: React.Key;
@@ -94,12 +94,12 @@ export const HomePage: React.FC = () => {
         key: "storyPointsSum",
       },
       {
-        title: "Average StoryPoint Cost",
+        title: "Average StoryPoint Cost (Team)",
         dataIndex: "averageStoryPointCost",
         key: "averageStoryPointCost",
       },
       {
-        title: "Average StoryPoint Cost (by Developer)",
+        title: "Average StoryPoint Cost (Developer)",
         dataIndex: "averageStoryPointCostByDeveloper",
         key: "averageStoryPointCostByDeveloper",
       },
@@ -110,7 +110,7 @@ export const HomePage: React.FC = () => {
       name: sprint.name,
       hoursSum: developerReportsService.getHoursSumFromBy(sprint),
       storyPointsSum: developerReportsService.getStoryPointsSumBy(sprint),
-      averageStoryPointCost:
+      averageStoryPointCostByTeam:
         developerReportsService.getAverageStoryPointCostBy(sprint),
       averageStoryPointCostByDeveloper:
         developerReportsService.getSubjectAverageStoryPointCostBy(sprint),
@@ -196,7 +196,7 @@ export const HomePage: React.FC = () => {
         name: developer.name,
         hoursSum: developerReportsService.getHoursSumFromBy(developer),
         storyPointsSum: developerReportsService.getStoryPointsSumBy(developer),
-        averageStoryPointCost:
+        averageStoryPointCostByTeam:
           developerReportsService.getAverageStoryPointCostBy(developer),
       };
     });
