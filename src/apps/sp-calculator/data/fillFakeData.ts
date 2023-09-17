@@ -14,7 +14,7 @@ function createRandomDeveloper() {
 function fillFakeDevelopers(domain: Domain) {
   const developersRepository = domain.getRepository(DevelopersRepository);
 
-  while (developersRepository.findAll().length < 5) {
+  while (developersRepository.findAll().length < 2) {
     developersRepository.save(createRandomDeveloper());
   }
 }
@@ -26,7 +26,7 @@ function createRandomSprint(sprintNumber: number) {
 function fillFakeSprints(domain: Domain) {
   const sprintsRepository = domain.getRepository(SprintsRepository);
 
-  while (sprintsRepository.findAll().length < 10) {
+  while (sprintsRepository.findAll().length < 2) {
     sprintsRepository.save(
       createRandomSprint(sprintsRepository.findAll().length + 1)
     );

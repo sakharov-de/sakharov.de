@@ -30,7 +30,7 @@ interface DeveloperDataType {
   name: string;
   hoursSum: number;
   storyPointsSum: number;
-  averageStoryPointCostByTeam: number | null;
+  averageStoryPointCost: number | null;
 }
 interface DeveloperSprintDataType {
   key: React.Key;
@@ -196,7 +196,7 @@ export const HomePage: React.FC = () => {
         name: developer.name,
         hoursSum: developerReportsService.getHoursSumFromBy(developer),
         storyPointsSum: developerReportsService.getStoryPointsSumBy(developer),
-        averageStoryPointCostByTeam:
+        averageStoryPointCost:
           developerReportsService.getAverageStoryPointCostBy(developer),
       };
     });
