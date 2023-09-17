@@ -95,8 +95,8 @@ export const HomePage: React.FC = () => {
       },
       {
         title: "Average StoryPoint Cost (Team)",
-        dataIndex: "averageStoryPointCost",
-        key: "averageStoryPointCost",
+        dataIndex: "averageStoryPointCostByTeam",
+        key: "averageStoryPointCostByTeam",
       },
       {
         title: "Average StoryPoint Cost (Developer)",
