@@ -39,7 +39,7 @@ function createRandomDeveloperReport(developer: Developer, sprint: Sprint) {
     undefined,
     sprint.id,
     developer.id,
-    faker.number.int(40),
+    faker.number.int({ min: 1, max: 40 }),
     faker.number.int(13)
   );
 }

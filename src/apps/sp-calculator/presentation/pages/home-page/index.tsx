@@ -15,6 +15,7 @@ interface SprintDataType {
   hoursSum: number;
   storyPointsSum: number;
   averageStoryPointCost: number | null;
+  averageStoryPointCostByDeveloper: number | null;
 }
 interface SprintDeveloperDataType {
   key: React.Key;
@@ -97,6 +98,11 @@ export const HomePage: React.FC = () => {
         dataIndex: "averageStoryPointCost",
         key: "averageStoryPointCost",
       },
+      {
+        title: "Average StoryPoint Cost (by Developer)",
+        dataIndex: "averageStoryPointCostByDeveloper",
+        key: "averageStoryPointCostByDeveloper",
+      },
     ];
     const data: SprintDataType[] = sprints.map((sprint) => ({
       sprint,
@@ -106,6 +112,8 @@ export const HomePage: React.FC = () => {
       storyPointsSum: developerReportsService.getStoryPointsSumBy(sprint),
       averageStoryPointCost:
         developerReportsService.getAverageStoryPointCostBy(sprint),
+      averageStoryPointCostByDeveloper:
+        developerReportsService.getSubjectAverageStoryPointCostBy(sprint),
     }));
 
     function expandedRowRender(record: SprintDataType) {

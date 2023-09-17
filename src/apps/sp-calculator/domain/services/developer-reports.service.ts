@@ -46,6 +46,24 @@ export class DeveloperReportsService {
     return this.getHoursSumFromBy(entity) / this.getStoryPointsSumBy(entity);
   }
 
+  getSubjectAverageStoryPointCostBy(entity: Developer | Sprint): number {
+    let developerReports: DeveloperReport[] = [];
+
+    if (entity instanceof Developer)
+      developerReports =
+        this.developerReportsRepository.findAllByDeveloper(entity);
+    if (entity instanceof Sprint)
+      developerReports =
+        this.developerReportsRepository.findAllBySprint(entity);
+
+    return (
+      developerReports.reduce((sum, report) => {
+        if (!report.hours || !report.storyPoints) return sum;
+        return sum + report.hours / report.storyPoints;
+      }, 0) / developerReports.length
+    );
+  }
+
   private calculateHoursSum(developerReports: DeveloperReport[]): number {
     return developerReports.reduce((sum, report) => {
       return sum + report.hours;
