@@ -223,7 +223,7 @@ export const HomePage: React.FC = () => {
           padding: "0 24px 24px",
         }}
       >
-        <Typography.Title level={2}>Sprints</Typography.Title>
+        <Typography.Title level={2}>Developers</Typography.Title>
         <div>{renderDevelopers()}</div>
       </div>
     );
