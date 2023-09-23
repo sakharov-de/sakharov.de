@@ -228,6 +228,33 @@ export const HomePage: React.FC = () => {
       </div>
     );
   }
+  function renderStatisticCard() {
+    return (
+      <div
+        className="site-layout-content"
+        style={{
+          background: colorBgContainer,
+          padding: "0 24px 24px",
+        }}
+      >
+        <Typography.Title level={2}>Statistic</Typography.Title>
+        <div>
+          <div>
+            <span>{"StoryPoint Cost (Developer): "}</span>
+            <span>
+              {developerReportsService.getSubjectAverageStoryPointCostByAllSprints()}
+            </span>
+          </div>
+          <div>
+            <span>{"StoryPoint Cost (Team): "}</span>
+            <span>
+              {developerReportsService.getAverageStoryPointCostByAllSprints()}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Layout
@@ -243,6 +270,7 @@ export const HomePage: React.FC = () => {
           gap: "24px",
         }}
       >
+        {renderStatisticCard()}
         {renderSprintsCard()}
         {renderDevelopersCard()}
       </Layout.Content>

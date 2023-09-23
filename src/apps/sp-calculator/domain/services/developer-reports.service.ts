@@ -2,12 +2,13 @@ import { Developer } from "../models/developer";
 import { Sprint } from "../models/sprint";
 import { DeveloperReportsRepository } from "../repositories/developer-reports.repository";
 import { DeveloperReport } from "../models/developer-report";
+import { SprintsRepository } from "../repositories/sprints.repository";
 
 export class DeveloperReportsService {
   constructor(
-    public readonly developerReportsRepository: DeveloperReportsRepository
+    private readonly developerReportsRepository: DeveloperReportsRepository,
+    private readonly sprintsRepository: SprintsRepository
   ) {}
-  // For Developers
   getHoursSumFromBy(entity: Developer | Sprint): number {
     let developerReports: DeveloperReport[] = [];
 
@@ -45,7 +46,15 @@ export class DeveloperReportsService {
   getAverageStoryPointCostBy(entity: Developer | Sprint): number {
     return this.getHoursSumFromBy(entity) / this.getStoryPointsSumBy(entity);
   }
+  getAverageStoryPointCostByAllSprints() {
+    const sprints = this.sprintsRepository.findAll();
 
+    return (
+      sprints.reduce((sum, sprint) => {
+        return sum + this.getAverageStoryPointCostBy(sprint);
+      }, 0) / sprints.length
+    );
+  }
   getSubjectAverageStoryPointCostBy(entity: Developer | Sprint): number {
     let developerReports: DeveloperReport[] = [];
 
@@ -61,6 +70,15 @@ export class DeveloperReportsService {
         if (!report.hours || !report.storyPoints) return sum;
         return sum + report.hours / report.storyPoints;
       }, 0) / developerReports.length
+    );
+  }
+  getSubjectAverageStoryPointCostByAllSprints() {
+    const sprints = this.sprintsRepository.findAll();
+
+    return (
+      sprints.reduce((sum, sprint) => {
+        return sum + this.getSubjectAverageStoryPointCostBy(sprint);
+      }, 0) / sprints.length
     );
   }
 

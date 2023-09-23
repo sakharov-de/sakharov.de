@@ -33,7 +33,8 @@ export class Domain {
     this.services.set(
       DeveloperReportsService,
       new DeveloperReportsService(
-        this.getRepository(DeveloperReportsRepository)
+        this.getRepository(DeveloperReportsRepository),
+        this.getRepository(SprintsRepository)
       )
     );
   }
