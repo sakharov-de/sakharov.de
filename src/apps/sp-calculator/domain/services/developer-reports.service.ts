@@ -3,35 +3,23 @@ import { Sprint } from "../models/sprint";
 import { DeveloperReportsRepository } from "../repositories/developer-reports.repository";
 import { DeveloperReport } from "../models/developer-report";
 import { SprintsRepository } from "../repositories/sprints.repository";
+import { DeveloperReportsHelper } from "../helpers/developer-reports.helper";
 
 export class DeveloperReportsService {
   constructor(
     private readonly developerReportsRepository: DeveloperReportsRepository,
-    private readonly sprintsRepository: SprintsRepository
+    private readonly sprintsRepository: SprintsRepository,
+    private readonly developerReportsHelper: DeveloperReportsHelper
   ) {}
-  getHoursSumFromBy(entity: Developer | Sprint): number {
-    let developerReports: DeveloperReport[] = [];
-
-    if (entity instanceof Developer)
-      developerReports =
-        this.developerReportsRepository.findAllByDeveloper(entity);
-    if (entity instanceof Sprint)
-      developerReports =
-        this.developerReportsRepository.findAllBySprint(entity);
-
-    return this.calculateHoursSum(developerReports);
+  getHoursSumBy(entity: Developer | Sprint): number {
+    return this.developerReportsHelper.calculateHoursSum(
+      this.developerReportsRepository.findAllBy(entity)
+    );
   }
   getStoryPointsSumBy(entity: Developer | Sprint): number {
-    let developerReports: DeveloperReport[] = [];
-
-    if (entity instanceof Developer)
-      developerReports =
-        this.developerReportsRepository.findAllByDeveloper(entity);
-    if (entity instanceof Sprint)
-      developerReports =
-        this.developerReportsRepository.findAllBySprint(entity);
-
-    return this.calculateStoryPointsSum(developerReports);
+    return this.developerReportsHelper.calculateStoryPointsSum(
+      this.developerReportsRepository.findAllBy(entity)
+    );
   }
   getStoryPointCost(developer: Developer, sprint: Sprint): number | null {
     const report = this.developerReportsRepository.findByDeveloperAndSprint(
@@ -39,12 +27,36 @@ export class DeveloperReportsService {
       sprint
     );
 
-    if (!report || !report.hours || !report.storyPoints) return null;
+    if (!report) return null;
 
-    return report.hours / report.storyPoints;
+    return this.developerReportsHelper.calculateStoryPointCost(report);
+  }
+  getMedianOfStoryPointCostBy(entity: Developer | Sprint) {
+    return this.developerReportsHelper.calculateMedianOfStoryPointCost(
+      this.developerReportsRepository.findAllBy(entity)
+    );
+  }
+  getMedianOfStoryPointCostByAllSprints() {
+    const sprints = this.sprintsRepository.findAll();
+
+    return (
+      sprints.reduce((sum, sprint) => {
+        return sum + (this.getMedianOfStoryPointCostBy(sprint) || 0);
+      }, 0) / sprints.length
+    );
   }
   getAverageStoryPointCostBy(entity: Developer | Sprint): number {
-    return this.getHoursSumFromBy(entity) / this.getStoryPointsSumBy(entity);
+    let developerReports: DeveloperReport[] =
+      this.developerReportsRepository.findAllBy(entity);
+
+    return (
+      developerReports.reduce((sum, report) => {
+        return (
+          sum +
+          (this.developerReportsHelper.calculateStoryPointCost(report) || 0)
+        );
+      }, 0) / developerReports.length
+    );
   }
   getAverageStoryPointCostByAllSprints() {
     const sprints = this.sprintsRepository.findAll();
@@ -54,42 +66,5 @@ export class DeveloperReportsService {
         return sum + this.getAverageStoryPointCostBy(sprint);
       }, 0) / sprints.length
     );
-  }
-  getSubjectAverageStoryPointCostBy(entity: Developer | Sprint): number {
-    let developerReports: DeveloperReport[] = [];
-
-    if (entity instanceof Developer)
-      developerReports =
-        this.developerReportsRepository.findAllByDeveloper(entity);
-    if (entity instanceof Sprint)
-      developerReports =
-        this.developerReportsRepository.findAllBySprint(entity);
-
-    return (
-      developerReports.reduce((sum, report) => {
-        if (!report.hours || !report.storyPoints) return sum;
-        return sum + report.hours / report.storyPoints;
-      }, 0) / developerReports.length
-    );
-  }
-  getSubjectAverageStoryPointCostByAllSprints() {
-    const sprints = this.sprintsRepository.findAll();
-
-    return (
-      sprints.reduce((sum, sprint) => {
-        return sum + this.getSubjectAverageStoryPointCostBy(sprint);
-      }, 0) / sprints.length
-    );
-  }
-
-  private calculateHoursSum(developerReports: DeveloperReport[]): number {
-    return developerReports.reduce((sum, report) => {
-      return sum + report.hours;
-    }, 0);
-  }
-  private calculateStoryPointsSum(developerReports: DeveloperReport[]): number {
-    return developerReports.reduce((sum, report) => {
-      return sum + report.storyPoints;
-    }, 0);
   }
 }

@@ -14,8 +14,8 @@ interface SprintDataType {
   name: string;
   hoursSum: number;
   storyPointsSum: number;
-  averageStoryPointCostByTeam: number | null;
-  averageStoryPointCostByDeveloper: number | null;
+  medianOfStoryPointCost: number | null;
+  averageStoryPointCost: number | null;
 }
 interface SprintDeveloperDataType {
   key: React.Key;
@@ -30,6 +30,7 @@ interface DeveloperDataType {
   name: string;
   hoursSum: number;
   storyPointsSum: number;
+  medianOfStoryPointCost: number | null;
   averageStoryPointCost: number | null;
 }
 interface DeveloperSprintDataType {
@@ -94,26 +95,26 @@ export const HomePage: React.FC = () => {
         key: "storyPointsSum",
       },
       {
-        title: "Average StoryPoint Cost (Team)",
-        dataIndex: "averageStoryPointCostByTeam",
-        key: "averageStoryPointCostByTeam",
+        title: "Median of StoryPoint Cost",
+        dataIndex: "medianOfStoryPointCost",
+        key: "medianOfStoryPointCost",
       },
       {
-        title: "Average StoryPoint Cost (Developer)",
-        dataIndex: "averageStoryPointCostByDeveloper",
-        key: "averageStoryPointCostByDeveloper",
+        title: "Average StoryPoint Cost",
+        dataIndex: "averageStoryPointCost",
+        key: "averageStoryPointCost",
       },
     ];
     const data: SprintDataType[] = sprints.map((sprint) => ({
       sprint,
       key: sprint.id,
       name: sprint.name,
-      hoursSum: developerReportsService.getHoursSumFromBy(sprint),
+      hoursSum: developerReportsService.getHoursSumBy(sprint),
       storyPointsSum: developerReportsService.getStoryPointsSumBy(sprint),
-      averageStoryPointCostByTeam:
+      medianOfStoryPointCost:
+        developerReportsService.getMedianOfStoryPointCostBy(sprint),
+      averageStoryPointCost:
         developerReportsService.getAverageStoryPointCostBy(sprint),
-      averageStoryPointCostByDeveloper:
-        developerReportsService.getSubjectAverageStoryPointCostBy(sprint),
     }));
 
     function expandedRowRender(record: SprintDataType) {
@@ -184,6 +185,11 @@ export const HomePage: React.FC = () => {
         key: "storyPointsSum",
       },
       {
+        title: "Median of StoryPoint Cost",
+        dataIndex: "medianOfStoryPointCost",
+        key: "medianOfStoryPointCost",
+      },
+      {
         title: "Average StoryPoint Cost",
         dataIndex: "averageStoryPointCost",
         key: "averageStoryPointCost",
@@ -194,8 +200,10 @@ export const HomePage: React.FC = () => {
         developer,
         key: developer.id,
         name: developer.name,
-        hoursSum: developerReportsService.getHoursSumFromBy(developer),
+        hoursSum: developerReportsService.getHoursSumBy(developer),
         storyPointsSum: developerReportsService.getStoryPointsSumBy(developer),
+        medianOfStoryPointCost:
+          developerReportsService.getMedianOfStoryPointCostBy(developer),
         averageStoryPointCost:
           developerReportsService.getAverageStoryPointCostBy(developer),
       };
@@ -240,15 +248,15 @@ export const HomePage: React.FC = () => {
         <Typography.Title level={2}>Statistic</Typography.Title>
         <div>
           <div>
-            <span>{"StoryPoint Cost (Developer): "}</span>
+            <span>{"Average StoryPoint Cost: "}</span>
             <span>
-              {developerReportsService.getSubjectAverageStoryPointCostByAllSprints()}
+              {developerReportsService.getAverageStoryPointCostByAllSprints()}
             </span>
           </div>
           <div>
-            <span>{"StoryPoint Cost (Team): "}</span>
+            <span>{"Median of StoryPoint Cost: "}</span>
             <span>
-              {developerReportsService.getAverageStoryPointCostByAllSprints()}
+              {developerReportsService.getMedianOfStoryPointCostByAllSprints()}
             </span>
           </div>
         </div>

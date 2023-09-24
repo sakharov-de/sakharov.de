@@ -3,7 +3,7 @@ interface Base {
 }
 
 export class BaseRepository<T extends Base> {
-  private readonly storage = new Map<T["id"], T>();
+  protected readonly storage = new Map<T["id"], T>();
 
   findAll() {
     return Array.from(this.storage.values());

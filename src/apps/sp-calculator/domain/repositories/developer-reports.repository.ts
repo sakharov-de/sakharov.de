@@ -2,20 +2,29 @@ import { DeveloperReport } from "../models/developer-report";
 import { BaseRepository } from "../../../../core/_base.repository";
 import { Developer } from "../models/developer";
 import { Sprint } from "../models/sprint";
+import { DeveloperReportsHelper } from "../helpers/developer-reports.helper";
 
 export class DeveloperReportsRepository extends BaseRepository<DeveloperReport> {
-  findAllByDeveloper(developer: Developer) {
-    return this.findAll().filter(
-      (report) => report.developerId === developer.id
+  constructor(private readonly developerReportsHelper: DeveloperReportsHelper) {
+    super();
+  }
+  findAllBy(entity: Developer | Sprint) {
+    if (entity instanceof Developer)
+      return this.developerReportsHelper.filterByDeveloperId(
+        entity.id,
+        this.findAll()
+      );
+
+    return this.developerReportsHelper.filterBySprintId(
+      entity.id,
+      this.findAll()
     );
   }
-  findAllBySprint(sprint: Sprint) {
-    return this.findAll().filter((report) => report.sprintId === sprint.id);
-  }
   findByDeveloperAndSprint(developer: Developer, sprint: Sprint) {
-    return this.findAll().find(
-      (report) =>
-        report.developerId === developer.id && report.sprintId === sprint.id
+    return this.developerReportsHelper.findByDeveloperIdAndSprintId(
+      developer.id,
+      sprint.id,
+      this.findAll()
     );
   }
 }
