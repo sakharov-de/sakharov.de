@@ -1,9 +1,10 @@
 import React from "react";
 
 const externalLinks = [
-  { name: "Instagram", url: "https://instagram.com/sakharov.de" },
-  { name: "Telegram", url: "https://t.me/sakharov_de" },
-  { name: "LinkedIn", url: "https://linkedin.com/in/sakharovde" },
+  { name: "Instagram", url: "https://instagram.com/sakharovde" },
+  { name: "Telegram", url: "https://t.me/sakharovde" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/sakharovde" },
+  { name: "GitHub", url: "https://github.com/sakharovde" },
 ];
 
 export const HomePage = () => {
